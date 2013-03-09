@@ -16,14 +16,14 @@ load() ->
 
 %% returns all records, parsed from the tzdata files in directory Dir.
 load(Dir) ->
-    {ok, Records} = 
+    {ok, Records} =
 	case filelib:is_dir(Dir) of
 	    true -> {ok, parse_dir(Dir)};
 	    false -> erlang:error({not_a_directory, Dir})
 	end,
 
     Records.
-    
+
 
 
 
@@ -43,7 +43,7 @@ parse_dir(Dir) ->
 
 % returns a list of tzdata records from file
 parse_file(File) ->
-    %% io:format("Parsing File: ~p~n", [File]),
+    %% error_logger:info_msg("Parsing File: ~p~n", [File]),
     {ok, FD} = file:open(File, [read]),
     parse_lines(file:read_line(FD), FD, []).
 
@@ -64,7 +64,7 @@ parse_lines({ok, Line}, File, Records) ->
 
 % the Line has data, so we parse it, build a record, and return it
 parse_to_record(Line, _, Records) ->
-    %% io:format("    Parsing Line: ~p~n", [Line]),
+    %% error_logger:info_msg("    Parsing Line: ~p~n", [Line]),
     [Type | Data] = string:tokens(Line, " \t"),
     {ok, PrevType, PrevName} = prev_rec_type(Records),
     {ok, Record} = build_record(Type, Data, {PrevType, PrevName}),
@@ -89,7 +89,7 @@ clean_line(Line) ->
     Line1= string:strip(Line),
     Line2= string:strip(Line1, both, $\n),
     Line3= string:strip(Line2, both, $\t),
-    
+
     %% remove comments and returns
     FinalLine=Line3,
     CPos= string:chr(FinalLine, $#),

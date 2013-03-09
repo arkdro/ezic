@@ -23,14 +23,14 @@ localtime(TzName) ->
 utc_to_local(UTCDatetime, TzName) ->
     NormalDatetime= ezic_date:normalize(UTCDatetime, u),
     utc_to_local_handleFlatzone(UTCDatetime, ezic_db:flatzone(NormalDatetime, TzName)).
-    
-    
+
+
 
 %% returns utc time for corresponding time in given timezone utc
 local_to_utc(LocalDatetime, TzName) ->
     NormalDatetime= ezic_date:normalize(LocalDatetime, w),
     local_to_utc_handleFlatzone(LocalDatetime, ezic_db:flatzone(NormalDatetime, TzName)).
-    
+
 
 has_dst_utc(Datetime, TzName) ->
     has_dst(Datetime, TzName, u).
